@@ -6,6 +6,7 @@ var fileParse = require('co-busboy');
 var render = require('./lib/render');
 var fs = require('fs');
 var path = require('path');
+var bibParse = require('bibtex-parser-js');
 
 // Set up monk
 var monk = require('monk');
@@ -47,6 +48,7 @@ module.exports.create = function *create() {
   // console.log("Create");
   var parts = fileParse(this);
   var form = {};
+  var filename = "";
   console.log(parts);
   while (part =
       yield parts) {
@@ -59,12 +61,18 @@ module.exports.create = function *create() {
       } else {
           // otherwise, it's a stream 
           console.log('stream');
-          var stream = fs.createWriteStream(path.join('paper/', Math.random().toString()));
+          filename = Math.random().toString() + path.extname(part.filename);
+          var stream = fs.createWriteStream(path.join('paper/', filename));
           part.pipe(stream);
           console.log('uploading %s -> %s', part.filename, stream.path);
       }
   }
+  var bib = bibParse.toJSON(form.bib);
   paper = form;
+  paper.key = bib.citationKey;
+  paper.type = bib.entryType;
+  paper.tag = bib.entryTags;
+  paper.path = path.join('paper/', filename);
   yield papers.insert(paper);
   this.redirect('/');
 };
@@ -93,3 +101,24 @@ module.exports.remove = function *remove(id) {
   yield papers.remove({_id:id});
   this.redirect('/');
 };
+
+/**
+ * fileDownload
+ */
+function stat(file) {
+  return function (done) {
+    fs.stat(file, done);
+  };
+}
+ module.exports.download = function *download(id) {
+  var paper = yield papers.findOne({_id:id});
+  console.log(paper);
+  var dPath = path.join(__dirname , paper.path);
+  var fstat = yield stat(dPath);
+
+  if (fstat.isFile()) {
+    this.body = fs.createReadStream(dPath);
+  }
+  this.set('Content-disposition', 'attachment; filename=' + paper.title + path.extname(dPath));
+  this.set('Content-type', path.extname(dPath));
+}

@@ -22,6 +22,7 @@ app.use(route.post('/paper', routes.create));
 app.use(route.post('/paper/:id', routes.update));
 app.use(route.get('/paper/:id/edit', routes.edit));
 app.use(route.get('/paper/:id/delete', routes.remove));
+app.use(route.get('/paper/:id/download', routes.download));
 
 //file dir 
 app.use(serve(__dirname + '/papers'));

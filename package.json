@@ -13,7 +13,8 @@
     "koa-static": "*",
     "mongodb": "^2.0.35",
     "monk": "^1.0.1",
-    "swig": "^1.4.2"
+    "swig": "^1.4.2",
+    "bibtex-parser-js": "0.0.2"
   },
   "devDependencies": {
     "mocha": "^2.2.5",
