@@ -8,7 +8,7 @@ var route = require('koa-route');
 var koa = require('koa');
 var serve = require('koa-static');
 var app = module.exports = koa();
-var bibTex = require('bibTex');
+// var bibTex = require('bibTex');
 
 // middleware
 
