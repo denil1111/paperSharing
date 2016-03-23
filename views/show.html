@@ -4,7 +4,11 @@
 
 {% block content %}
   <h1>{{ paper.title }}</h1>
-  <p>{{ paper.body }}</p>
+  <p>author: {{paper.tag.AUTHOR}}</p>
+  <p>journal: {{paper.tag.JOURNAL}}</p>
+  <p>year: {{paper.tag.YEAR}}</p>
+  <p>publisher: {{paper.tag.PUBLISHER}}</p>
+  <p>bibTex:</p><p>{{ paper.bib }}</p>
   <ul>
   	<li><a href="/paper/{{ paper._id.toString() }}/edit">Edit paper</a></li>
   	<li><a href="/paper/{{ paper._id.toString() }}/delete">Delete paper</a></li>

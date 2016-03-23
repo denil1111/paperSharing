@@ -22,7 +22,8 @@ var papers = wrap(db.get('papers'));
  */
 module.exports.list = function *list() {
   var paperList = yield papers.find({});
-  this.body = yield render('list', { papers: paperList });
+
+  this.body = yield render('list', { papers: paperList , itemPerPage : 10});
 };
 
 /**
@@ -67,8 +68,10 @@ module.exports.create = function *create() {
           console.log('uploading %s -> %s', part.filename, stream.path);
       }
   }
-  var bib = bibParse.toJSON(form.bib);
+  var bib = bibParse.toJSON(form.bib)[0];
+  console.log(bib);
   paper = form;
+  paper.title = bib.entryTags.TITLE;
   paper.key = bib.citationKey;
   paper.type = bib.entryType;
   paper.tag = bib.entryTags;
