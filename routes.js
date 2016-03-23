@@ -80,27 +80,29 @@ module.exports.create = function *create() {
   this.redirect('/');
 };
 
-/**
- * Show edit form
- */
-module.exports.edit = function *edit(id) {
-  var paper = yield papers.findOne({_id:id});
-  this.body = yield render('edit', { paper: paper });
-};
+// /**
+//  * Show edit form
+//  */
+// module.exports.edit = function *edit(id) {
+//   var paper = yield papers.findOne({_id:id});
+//   this.body = yield render('edit', { paper: paper });
+// };
 
-/**
- * Update paper
- */
-module.exports.update = function *update(id) {
-  var paper = yield parse(this);
-  yield papers.updateById(id, paper);
-  this.redirect('/paper/' + id);
-};
+// /**
+//  * Update paper
+//  */
+// module.exports.update = function *update(id) {
+//   var paper = yield parse(this);
+//   yield papers.updateById(id, paper);
+//   this.redirect('/paper/' + id);
+// };
 
 /**
  * Remove paper
  */
 module.exports.remove = function *remove(id) {
+  var paper = yield papers.findOne({_id:id});
+  fs.unlink(paper.path);
   yield papers.remove({_id:id});
   this.redirect('/');
 };
