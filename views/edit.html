@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ paper.title }}{% endblock %}
+
+{% block content %}
+  <h1>Edit paper</h1>
+  <form action="/paper/{{paper._id.toString()}}" method="paper">
+    <p><input type="text" name="title" value="{{paper.title}}"></p>
+    <p><textarea name="body">{{paper.body}}</textarea></p>
+    <p><input type="submit" value="Save"></p>
+  </form>
+{% endblock %}

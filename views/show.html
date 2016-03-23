@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ paper.title }}{% endblock %}
+
+{% block content %}
+  <h1>{{ paper.title }}</h1>
+  <p>{{ paper.body }}</p>
+  <ul>
+  	<li><a href="/paper/{{ paper._id.toString() }}/edit">Edit paper</a></li>
+  	<li><a href="/paper/{{ paper._id.toString() }}/delete">Delete paper</a></li>
+  </ul>
+{% endblock %}

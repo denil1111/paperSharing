@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block title %}papers{% endblock %}
+
+{% block content %}
+  <h1>papers</h1>
+  <p>You have <strong>{{ papers.length }}</strong> papers!</p>
+  <p><a href="/paper/new">Create a paper</a></p>
+  <ul id="papers">
+    {% for paper in papers %}
+      <li>
+        <h2>{{ paper.title }}</h2>
+        <p><a href="/paper/{{ paper._id.toString() }}">Read paper</a></p>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
