@@ -113,7 +113,7 @@ function stat(file) {
     fs.stat(file, done);
   };
 }
- module.exports.download = function *download(id) {
+module.exports.download = function *download(id) {
   var paper = yield papers.findOne({_id:id});
   console.log(paper);
   var dPath = path.join(__dirname , paper.path);
@@ -124,4 +124,26 @@ function stat(file) {
   }
   this.set('Content-disposition', 'attachment; filename=' + paper.title + path.extname(dPath));
   this.set('Content-type', path.extname(dPath));
+}
+
+/**
+ * search
+ */
+module.exports.search = function *search() {
+  var key = yield parse(this);
+  var info = {
+  };
+  console.log(key);
+  if (key.title) {
+    info.title = { $regex: key.title, $options: 'i'};
+  }
+  if (key.author) {
+    info["tag.AUTHOR"] = { $regex : key.author, $options: 'i'};
+  }
+  if (key.journal) {
+    info["tag.JOURNAL"] = { $regex : key.journal, $options: 'i'};
+  }
+  var paperList = yield papers.find( info
+  );
+  this.body = yield render('list', { papers: paperList , itemPerPage : 10});   
 }

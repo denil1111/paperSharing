@@ -3,12 +3,20 @@
 {% block title %}New paper{% endblock %}
 
 {% block content %}
-  <h1>New paper</h1>
+  <h1>New Paper</h1>
   <p>Create a new paper.</p>
   <form action="/paper" method="post" enctype="multipart/form-data">
-    <p><input type="text" placeholder="Title" name="title"></p>
+    <p>choose paper: </p>
     <p><input type="file" name="file" multiple></p>
-    <p><textarea placeholder="Contents" name="bib"></textarea></p>
+    <p>input bibTex:</p>
+    <p><textarea placeholder="example: 
+@book{mckusick1998mendelian,
+title={Mendelian inheritance in man: a catalog of human genes and genetic disorders},
+author={McKusick, Victor A},
+volume={1},
+year={1998},
+publisher={JHU Press}
+}" name="bib"></textarea></p>
     <p><input type="submit" value="Create"></p>
   </form>
 {% endblock %}

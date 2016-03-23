@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block title %}papers{% endblock %}
-{% block script %}
+{% block script %}    
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="stylesheet" href="pagination.css" />
   <style type="text/css">
@@ -41,7 +41,7 @@
   </script>
 {% endblock %}
 {% block content %}
-  <h1>papers</h1>
+  <h1>Papers</h1>
   <p>You have <strong>{{ papers.length }}</strong> papers!</p>
   <p><a href="/paper/new">Create a paper</a></p>
   <div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
@@ -58,4 +58,11 @@
     {% endfor %}
   </ul>
   </div>
+  <h1>search</h1>
+  <form action="/search" method="post">
+    <p><input placeholder="title or null" type="text" name="title"></p>
+    <p><input placeholder="author or null"" type="text" name="author"></p>
+    <p><input placeholder="journal or null" type="text" name="journal"></p>
+    <p><input type="submit"></p>
+  </form>
 {% endblock %}

@@ -19,6 +19,7 @@ app.use(route.get('/', routes.list));
 app.use(route.get('/paper/new', routes.add));
 app.use(route.get('/paper/:id', routes.show));
 app.use(route.post('/paper', routes.create));
+app.use(route.post('/search', routes.search));
 app.use(route.post('/paper/:id', routes.update));
 app.use(route.get('/paper/:id/edit', routes.edit));
 app.use(route.get('/paper/:id/delete', routes.remove));

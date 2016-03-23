@@ -4,14 +4,20 @@
 
 {% block content %}
   <h1>{{ paper.title }}</h1>
-  <p>author: {{paper.tag.AUTHOR}}</p>
-  <p>journal: {{paper.tag.JOURNAL}}</p>
-  <p>year: {{paper.tag.YEAR}}</p>
-  <p>publisher: {{paper.tag.PUBLISHER}}</p>
-  <p>bibTex:</p><p>{{ paper.bib }}</p>
   <ul>
   	<li><a href="/paper/{{ paper._id.toString() }}/edit">Edit paper</a></li>
   	<li><a href="/paper/{{ paper._id.toString() }}/delete">Delete paper</a></li>
     <li><a href="/paper/{{ paper._id.toString() }}/download">Download paper</a></li>
   </ul>
+  <h2>Author:</h2>
+  <p>{{paper.tag.AUTHOR}}</p>
+  <h2>Journal:</h2>
+  <p>{{paper.tag.JOURNAL}}</p>
+  <h2>Year:</h2>
+  <p>{{paper.tag.YEAR}}</p>
+  <h2>Publisher:</h2>
+  <p>{{paper.tag.PUBLISHER}}</p>
+  <h2>BibTex:</h2>
+  <p>{{ paper.bib }}</p>
+  
 {% endblock %}
