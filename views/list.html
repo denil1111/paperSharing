@@ -41,28 +41,19 @@
   </script>
 {% endblock %}
 {% block content %}
-  <h1>Papers</h1>
-  <p>You have <strong>{{ papers.length }}</strong> papers!</p>
-  <p><a href="/paper/new">Create a paper</a></p>
-  <div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
+  <h1>Papers <span class="badge">{{ papers.length }}</span> <a href="/paper/new" class="btn btn-success btn-sm" style="display:inline-block;margin-left:10px;">Create a paper</a></h1>
+   
   <div id="Searchresult">分页初始化完成后这里的内容会被替换。</div>
   <div id="hiddenresult" style="display:none;">
   <ul id="papers">
     {% for paper in papers %}
-     <div class="show">
-      <li>
-        <h2>{{ paper.title }}</h2>
-        <p><a href="/paper/{{ paper._id.toString() }}">Read paper</a></p>
-      </li>
-      </div>
+      <blockquote class="show">
+        <a href="/paper/{{ paper._id.toString() }}" target="_blank">{{ paper.title }}</a>
+        <small>Someone famous in <cite title="Source Title">Source Title</cite></small>
+      </blockquote>
     {% endfor %}
   </ul>
   </div>
-  <h1>search</h1>
-  <form action="/search" method="post">
-    <p><input placeholder="title or null" type="text" name="title"></p>
-    <p><input placeholder="author or null"" type="text" name="author"></p>
-    <p><input placeholder="journal or null" type="text" name="journal"></p>
-    <p><input type="submit"></p>
-  </form>
+  <div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
+  
 {% endblock %}

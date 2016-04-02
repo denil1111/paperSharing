@@ -3,20 +3,35 @@
 {% block title %}New paper{% endblock %}
 
 {% block content %}
-  <h1>New Paper</h1>
-  <p>Create a new paper.</p>
-  <form action="/paper" method="post" enctype="multipart/form-data">
-    <p>choose paper: </p>
-    <p><input type="file" name="file" multiple></p>
-    <p>input bibTex:</p>
-    <p><textarea placeholder="example: 
+	
+	<form class="form-horizontal" action="/paper" method="post" enctype="multipart/form-data">
+	  <fieldset>
+	    <legend>Create a new paper.</legend>
+			<div class="form-group">
+	      <label for="file" class="col-lg-1 control-label">pdf: </label>
+	      <div class="col-lg-10">
+	        <input type="file" class="form-control" id="file" name="file" multiple/>
+	      </div>
+	    </div>
+			<div class="form-group">
+	      <label for="bib" class="col-lg-1 control-label">bibTex:</label>
+	      <div class="col-lg-10">
+	        <textarea class="form-control" rows="8" id="bib" placeholder="example: 
 @book{mckusick1998mendelian,
 title={Mendelian inheritance in man: a catalog of human genes and genetic disorders},
 author={McKusick, Victor A},
 volume={1},
 year={1998},
 publisher={JHU Press}
-}" name="bib"></textarea></p>
-    <p><input type="submit" value="Create"></p>
-  </form>
+}" name="bib"></textarea>
+	      </div>
+	    </div>
+	    <div class="form-group">
+	      <div class="col-lg-10 col-lg-offset-2">
+	        <button type="submit" class="btn btn-primary">Create</button>
+	      </div>
+	    </div>
+	  </fieldset>
+	</form>
+
 {% endblock %}
