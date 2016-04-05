@@ -49,7 +49,7 @@
     {% for paper in papers %}
       <blockquote class="show">
         <a href="/paper/{{ paper._id.toString() }}" target="_blank">{{ paper.title }}</a>
-        <small>Someone famous in <cite title="Source Title">Source Title</cite></small>
+        <small>{{paper.tag.AUTHOR}}</small>
       </blockquote>
     {% endfor %}
   </ul>

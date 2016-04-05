@@ -2,21 +2,51 @@
 
 {% block title %}{{ paper.title }}{% endblock %}
 
+{% block script %}
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/1.12.0/jquery.min.js"></script>
+<script>
+;(function(){
+  $(document).delegate(".btn-danger","click",function(e){
+    console.log("haha");
+    var res=confirm("Do you really want to delete this paper?");
+    if(!res){
+      e.preventDefault();
+    }
+  })
+})();
+</script>
+{% endblock %}
+
 {% block content %}
-  <h1>{{ paper.title }}</h1>
-  <ul>
-  	<li><a href="/paper/{{ paper._id.toString() }}/delete">Delete paper</a></li>
-    <li><a href="/paper/{{ paper._id.toString() }}/download">Download paper</a></li>
-  </ul>
-  <h2>Author:</h2>
-  <p>{{paper.tag.AUTHOR}}</p>
-  <h2>Journal:</h2>
-  <p>{{paper.tag.JOURNAL}}</p>
-  <h2>Year:</h2>
-  <p>{{paper.tag.YEAR}}</p>
-  <h2>Publisher:</h2>
-  <p>{{paper.tag.PUBLISHER}}</p>
-  <h2>BibTex:</h2>
-  <p>{{ paper.bib }}</p>
+  <h3>{{ paper.title }}</h3>
+  <div class="list-group">
+    <div class="list-group-item">
+      <h4 class="list-group-item-heading">Author</h4>
+      <p class="list-group-item-text">{{paper.tag.AUTHOR}}</p>
+    </div>
+    <div class="list-group-item">
+      <h4 class="list-group-item-heading">Journal</h4>
+      <p class="list-group-item-text">{{paper.tag.JOURNAL}}</p>
+    </div>
+    <div class="list-group-item">
+      <h4 class="list-group-item-heading">Year</h4>
+      <p class="list-group-item-text">{{paper.tag.YEAR}}</p>
+    </div>
+    <div class="list-group-item">
+      <h4 class="list-group-item-heading">Publisher</h4>
+      <p class="list-group-item-text">{{paper.tag.PUBLISHER}}</p>
+    </div>
+    <div class="list-group-item">
+      <h4 class="list-group-item-heading">BibTex</h4>
+      <p class="list-group-item-text">{{paper.bib}}</p>
+    </div>
+    <div class="list-group-item">
+      <h4 class="list-group-item-heading">Action</h4>
+      <p class="list-group-item-text">
+        <a class="btn btn-success" href="/paper/{{ paper._id.toString() }}/download">Download paper</a>
+        <a class="btn btn-danger" href="/papers/{{ paper._id.toString() }}/delete">Delete paper</a>
+      </p>
+    </div>
+  </div>
   
 {% endblock %}

@@ -28,7 +28,7 @@ app.use(route.get('/paper/:id/download', routes.download));
 // setInterval(bibTex.reset, 600000);
 
 //file dir 
-app.use(serve(__dirname + '/papers'));
+// app.use(serve(__dirname + '/papers'));
 app.use(serve(__dirname + '/lib'));
 
 // listen
