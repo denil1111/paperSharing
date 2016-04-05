@@ -50,24 +50,25 @@ function packBib(data)
     var result = "";
     result += "@article{";
     result += data.key + ",\n";
-    result += "title={" + data.title + "},\n";
+    result += "title={" + data.title + "}";
     if (data.tag.AUTHOR != "")
     {
-        result += "author={" + data.tag.AUTHOR + "},\n";
+        result += ",\n" + "author={" + data.tag.AUTHOR + "}";
     }
     if (data.tag.YEAR != "")
     {
-        result += "year={" + data.tag.YEAR + "},\n";
+        result += "},\n" + "year={" + data.tag.YEAR + "}";
     }
     if (data.tag.JOURNAL != "")
     {
-        result += "journal={" + data.tag.JOURNAL + "},\n";
+        result += ",\n" + "journal={" + data.tag.JOURNAL + "}";
     }    
     if (data.tag.PUBLISHER !="")
     {
-        result += "publisher={" + data.tag.PUBLISHER + "},\n";
+        result += ",\n" + "publisher={" + data.tag.PUBLISHER + "}";
     }
-    result += "}";
+    result += "\n}";
+    return result;
 }
 /**
  * Create a paper.
@@ -95,7 +96,7 @@ module.exports.create = function *create() {
           console.log('uploading %s -> %s', part.filename, stream.path);
       }
   }
-  form.useBib = true;
+//   form.useBib = true;
   if (form.useBib) {
     var bib = bibParse.toJSON(form.bib)[0];
     console.log(bib);
@@ -117,8 +118,11 @@ module.exports.create = function *create() {
     paper.tag.JOURNAL = form.journal;
     paper.tag.AUTHOR = form.author;
     paper.tag.YEAR = form.year;
-    paper.tag.PUBLISHER = paper.tag.publisher;
-    paper.bib = packBib(paper); 
+    paper.tag.PUBLISHER = form.publisher;
+    paper.bib = packBib(paper);
+    paper.path = path.join('paper/', filename); 
+    yield papers.insert(paper);
+    this.redirect('/');
   }
 };
 
