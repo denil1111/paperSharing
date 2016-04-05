@@ -3,8 +3,11 @@
   <title>{% block title %}Blog{% endblock %}</title>
   <style>
     body {
-      padding: 80px;
       font: 16px Helvetica, Arial;
+    }
+
+    main {
+      padding:0 40px;
     }
 
     h1 {
@@ -50,14 +53,69 @@
     input[type=text] {
       width: 500px;
     }
+    
+    .and-mark{
+      display: inline-block;
+      margin: 0 10px;
+      font-size: 16px;
+      color: #6D6D6D;
+    }
+
+    .control-label{
+      text-align: left;!!important
+    }
+
+    .list-group-item p{
+      font-size:16px;
+      color:#9E9D9D;
+    }
+
+    .tab-content{
+      padding:20px;
+    }
+
   </style>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/paper/bootstrap.min.css">
   {% block script %}{% endblock %}
 </head>
 <body>
-  <section id="content">
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">PaperSharing</a>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" aria-expanded="false">
+        <form class="navbar-form navbar-right" action="/search" method="post">
+            <div class="form-group">
+                <input type="text" class="form-control" id="title" name="title" placeholder="title or null"/>
+            </div>
+            <span class="and-mark">&amp;</span>
+            <div class="form-group">
+                <input type="text" class="form-control" id="author" name="author" placeholder="author or null"/>
+            </div>
+            <span class="and-mark">&amp;</span>
+            <div class="form-group">
+              <div>
+                <input type="text" class="form-control" id="journal" name="journal" placeholder="journal or null"/>
+              </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </nav>
+  <main id="content">
     {% block content %}
       <p>Missing content!</p>
     {% endblock %}
-  </section>
+  </main>
 </body>
 </html>

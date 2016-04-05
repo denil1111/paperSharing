@@ -4,9 +4,26 @@
 
 {% block content %}
   <h1>Edit paper</h1>
-  <form action="/paper/{{paper._id.toString()}}" method="paper">
-    <p><input type="text" name="title" value="{{paper.title}}"></p>
-    <p><textarea name="body">{{paper.body}}</textarea></p>
-    <p><input type="submit" value="Save"></p>
+  <form class="form-horizontal" action="/paper/{{paper._id.toString()}}" method="paper">
+  	<fieldset>
+	    <legend>Create a new paper.</legend>
+	    <div class="form-group">
+	      <label for="title" class="col-lg-2 control-label">title:</label>
+	      <div class="col-lg-10">
+	        <input type="text" class="form-control" id="title" name="title" value="{{paper.title}}"/>
+	      </div>
+	    </div>
+		<div class="form-group">
+	      <label for="body" class="col-lg-2 control-label">body:</label>
+	      <div class="col-lg-10">
+	        <textarea class="form-control" rows="8" id="body" name="body">{{paper.body}}</textarea>
+	      </div>
+	    </div>
+	    <div class="form-group">
+	      <div class="col-lg-10 col-lg-offset-2">
+	        <button type="submit" class="btn btn-primary">Save</button>
+	      </div>
+	    </div>
+    </fieldset>
   </form>
 {% endblock %}
