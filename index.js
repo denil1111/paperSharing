@@ -8,14 +8,13 @@ var route = require('koa-route');
 var koa = require('koa');
 var serve = require('koa-static');
 var app = module.exports = koa();
+var routes = require('./routes.js');
 // var bibTex = require('bibTex');
 
 // middleware
-
 app.use(logger());
 
 // route middleware
-var routes = require('./routes.js');
 app.use(route.get('/', routes.list));
 app.use(route.get('/paper/new', routes.add));
 app.use(route.get('/paper/:id', routes.show));
@@ -28,8 +27,8 @@ app.use(route.get('/paper/:id/download', routes.download));
 // setInterval(bibTex.reset, 600000);
 
 //file dir 
-// app.use(serve(__dirname + '/papers'));
 app.use(serve(__dirname + '/lib'));
+app.use(serve(__dirname + '/paper'));
 
 // listen
 app.listen(3000);

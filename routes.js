@@ -43,6 +43,33 @@ module.exports.show = function *show(id) {
 };
 
 /**
+ * pack bib
+ */
+function packBib(data)
+{
+    var result = "";
+    result += "@article{";
+    result += data.key + ",\n";
+    result += "title={" + data.title + "},\n";
+    if (data.tag.AUTHOR != "")
+    {
+        result += "author={" + data.tag.AUTHOR + "},\n";
+    }
+    if (data.tag.YEAR != "")
+    {
+        result += "year={" + data.tag.YEAR + "},\n";
+    }
+    if (data.tag.JOURNAL != "")
+    {
+        result += "journal={" + data.tag.JOURNAL + "},\n";
+    }    
+    if (data.tag.PUBLISHER !="")
+    {
+        result += "publisher={" + data.tag.PUBLISHER + "},\n";
+    }
+    result += "}";
+}
+/**
  * Create a paper.
  */
 module.exports.create = function *create() {
@@ -68,16 +95,31 @@ module.exports.create = function *create() {
           console.log('uploading %s -> %s', part.filename, stream.path);
       }
   }
-  var bib = bibParse.toJSON(form.bib)[0];
-  console.log(bib);
-  paper = form;
-  paper.title = bib.entryTags.TITLE;
-  paper.key = bib.citationKey;
-  paper.type = bib.entryType;
-  paper.tag = bib.entryTags;
-  paper.path = path.join('paper/', filename);
-  yield papers.insert(paper);
-  this.redirect('/');
+  form.useBib = true;
+  if (form.useBib) {
+    var bib = bibParse.toJSON(form.bib)[0];
+    console.log(bib);
+    paper = form;
+    paper.title = bib.entryTags.TITLE;
+    paper.key = bib.citationKey;
+    paper.type = bib.entryType;
+    paper.tag = bib.entryTags;
+    paper.path = path.join('paper/', filename);
+    yield papers.insert(paper);
+    this.redirect('/');
+  } else {
+    paper = {};
+    paper.title = form.title;
+    paper.key = form.key;
+    paper.type = "article";
+    paper.tag = {};
+    paper.tag.TITLE = form.title;
+    paper.tag.JOURNAL = form.journal;
+    paper.tag.AUTHOR = form.author;
+    paper.tag.YEAR = form.year;
+    paper.tag.PUBLISHER = paper.tag.publisher;
+    paper.bib = packBib(paper); 
+  }
 };
 
 // /**
@@ -119,13 +161,18 @@ module.exports.download = function *download(id) {
   var paper = yield papers.findOne({_id:id});
   console.log(paper);
   var dPath = path.join(__dirname , paper.path);
-  var fstat = yield stat(dPath);
-
-  if (fstat.isFile()) {
-    this.body = fs.createReadStream(dPath);
-  }
-  this.set('Content-disposition', 'attachment; filename=' + paper.title + path.extname(dPath));
-  this.set('Content-type', path.extname(dPath));
+  this.redirect("/"+path.basename(dPath));
+/**
+ * send the binary file 
+ */
+//   var fstat = yield stat(dPath);
+  
+//   if (fstat.isFile()) {
+//     this.body = fs.createReadStream(dPath);
+//   }
+//   this.redirect("/"+path.basename(dPath));
+//   this.set('Content-disposition', 'attachment; filename=' + paper.title + path.extname(dPath));
+//   this.set('Content-type', path.extname(dPath));
 }
 
 /**
