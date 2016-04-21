@@ -1,11 +1,9 @@
-{% extends 'layout.html' %}
-
-{% block title %}{{ paper.title }}{% endblock %}
-
-{% block script %}
+{% extends 'layout.html' %} {% block title %}{{ paper.title }}{% endblock %} {% block script %}
+<link rel="stylesheet" href="/bootstrap-tagsinput.css">
 <script type="text/javascript" src="/jquery.min.js"></script>
+<script src="/bootstrap-tagsinput.min.js"></script>
 <script>
-;(function(){
+(function(){ 
   $(document).delegate(".btn-danger","click",function(e){
     console.log("haha");
     var res=confirm("Do you really want to delete this paper?");
@@ -14,59 +12,86 @@
     }
   })
 })();
+
 </script>
 <script type="text/javascript" src="/bootstrap.min.js"></script>
-{% endblock %}
-
-{% block content %}
-  <h3>{{ paper.title }}</h3>
-  <div class="list-group">
+{% endblock %} {% block content %}
+<h3>{{ paper.title }}</h3>
+<div class="list-group">
     {% if (paper.tag.AUTHOR !="") %}
     <div class="list-group-item">
-      <h5 class="list-group-item-heading">Author</h5>
-      <p class="list-group-item-text">{{paper.tag.AUTHOR}}</p>
+        <h5 class="list-group-item-heading">Author</h5>
+        <p class="list-group-item-text">{{paper.tag.AUTHOR}}</p>
     </div>
-    {% endif %}
-    {% if (paper.tag.JOURNAL !="") %}
+    {% endif %} {% if (paper.tag.JOURNAL !="") %}
     <div class="list-group-item">
-      <h5 class="list-group-item-heading">Journal</h5>
-      <p class="list-group-item-text">{{paper.tag.JOURNAL}}</p> 
+        <h5 class="list-group-item-heading">Journal</h5>
+        <p class="list-group-item-text">{{paper.tag.JOURNAL}}</p>
     </div>
-    {% endif %}
-    {% if (paper.tag.YEAR !="") %}
+    {% endif %} {% if (paper.tag.YEAR !="") %}
     <div class="list-group-item">
-      <h5 class="list-group-item-heading">Year</h5>
-      <p class="list-group-item-text">{{paper.tag.YEAR}}</p>
+        <h5 class="list-group-item-heading">Year</h5>
+        <p class="list-group-item-text">{{paper.tag.YEAR}}</p>
     </div>
-    {% endif %}
-    {% if (paper.tag.PUBLISHER !="") %}
+    {% endif %} {% if (paper.tag.PUBLISHER !="") %}
     <div class="list-group-item">
-      <h5 class="list-group-item-heading">Publisher</h5>
-      <p class="list-group-item-text">{{paper.tag.PUBLISHER}}</p>
+        <h5 class="list-group-item-heading">Publisher</h5>
+        <p class="list-group-item-text">{{paper.tag.PUBLISHER}}</p>
     </div>
     {% endif %}
     <div class="list-group-item">
-      <!--<h5 class="list-group-item-heading">Action</h5>-->
-      <p class="list-group-item-text">
-        <a class="btn btn-success" href="/paper/{{ paper._id.toString() }}/download">Download</a>
-        <a class="btn btn-info" data-toggle="modal" data-target="#citeModal" id="cite">cite</a>
-        <a class="btn btn-primary">add Tag</a>
-        <a class="btn btn-danger" href="/papers/{{ paper._id.toString() }}/delete">Delete</a>
-      </p>
+        <!--<h5 class="list-group-item-heading">Action</h5>-->
+        <p class="list-group-item-text">
+            <a class="btn btn-success" href="/paper/{{ paper._id.toString() }}/download">Download</a>
+            <a class="btn btn-info" data-toggle="modal" data-target="#citeModal" id="cite">cite</a>
+            <a class="btn btn-primary" data-toggle="modal" data-target="#tagModal" id="tag">add Tag</a>
+            <a class="btn btn-danger" href="/papers/{{ paper._id.toString() }}/delete">Delete</a>
+        </p>
     </div>
-    <div class="modal" id="citeModal">
-      <div class="modal-dialog">
+</div>
+<div class="modal" id="citeModal">
+    <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">BibTex</h4>
-          </div>
-          <div class="modal-body id="bibTexp">
-            <p style="white-space: pre-line">{{paper.bib}}</p>
-          </div>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">BibTex</h4>
+            </div>
+            <div class="modal-body" id="bibTex">
+                <p style="white-space: pre-line">{{paper.bib}}</p>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  
+</div>
+<div class="modal" id="tagModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">inputTag</h4>
+            </div>
+            <div class="modal-body">
+                <form onkeypress="return event.keyCode != 13;" id="TagsInputForm" method="post" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">Tags</label>
+                        <div class="col-xs-8">
+                            <big><input type="text" name="cities" class="form-control" value="Hanoi" data-role="tagsinput" /></big>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-5 col-xs-offset-3">
+                            <button type="submit" class="btn btn-default">Validate</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$('input').tagsinput({
+    tagClass: 'label label-primary',
+});
+
+</script>
+
 {% endblock %}
