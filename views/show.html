@@ -1,7 +1,6 @@
 {% extends 'layout.html' %} {% block title %}{{ paper.title }}{% endblock %} {% block script %}
 <!--<link rel="stylesheet" href="/bootstrap-tagsinput.css">-->
 <script type="text/javascript" src="/jquery.min.js"></script>
-<script src="/bootstrap-tagsinput.min.js"></script>
 <script>
 (function(){ 
   $(document).delegate(".btn-danger","click",function(e){
@@ -74,12 +73,12 @@
                     <div class="form-group">
                         <label class="col-xs-3 control-label">Tags</label>
                         <div class="col-xs-8">
-                            <big><input type="text" name="cities" class="form-control" value="Hanoi" data-role="tagsinput" /></big>
+                            <big><input id="tagFormInput" type="text" name="tags" class="form-control" value="" data-role="tagsinput" /></big>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-xs-5 col-xs-offset-3">
-                            <button type="submit" class="btn btn-default">Validate</button>
+                            <button type="submit" class="btn btn-default">Submit</button>
                         </div>
                     </div>
                 </form>
@@ -88,10 +87,19 @@
     </div>
 </div>
 <script>
-$('input').tagsinput({
+var tags = {{paper.tags|json|raw}};
+var tagstr = "";
+if (tags && tags.length>0) {
+    tagstr = JSON.stringify(tags);
+    tagstr = tagstr.substring(2,tagstr.length-2);
+    tagstr = tagstr.replace(/","/g,',');
+}
+$('#tagFormInput').attr("value",tagstr);
+</script>
+<script src="/bootstrap-tagsinput.min.js"></script>
+<script>
+$('#tagFormInput').tagsinput({
     tagClass: 'label label-primary',
 });
-
 </script>
-
 {% endblock %}
