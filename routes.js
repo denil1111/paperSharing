@@ -22,10 +22,37 @@ var tags = wrap(db.get('tags'));
  * paper listing.
  */
 module.exports.list = function* list() {
-  var paperList = yield papers.find({});
-
-  this.body = yield render('list', { papers: paperList, itemPerPage: 10 });
+  var paperList = yield papers.find({}, {
+    sort: {
+      _id: -1
+    }
+  });
+  console.log(paperList);
+  var tagList = yield tags.find({}, {
+    sort: {
+      _id: -1
+    }
+  });
+  
+  var moreTags = [];
+  var tagsHead = [];
+  if (tagList.length>=4) {
+    moreTags = tagList.slice(4);
+    // tagList.splice(4);
+    tagsHead = tagList.slice(0,4);
+  }
+  console.log("tags:");
+  console.log(tagList);
+  this.body = yield render('list', {
+    papers: paperList,
+    moreTags : moreTags,
+    tagsHead : tagsHead,
+    itemPerPage: 5,
+    tags: tagList
+  });
 };
+
+// module.exports.listByt
 
 /**
  * Show creation form.
@@ -118,6 +145,7 @@ module.exports.create = function* create() {
     paper.bib = packBib(paper);
     paper.path = path.join('paper/', filename);
     yield papers.insert(paper);
+    console.log("insert ok!");
     this.redirect('/');
   }
 };
