@@ -31,6 +31,6 @@ app.use(serve(__dirname + '/lib'));
 app.use(serve(__dirname + '/paper'));
 
 // listen
-app.listen(8080);
-console.log('listening on port 8080');
+app.listen(80);
+console.log('listening on port 80');
 
