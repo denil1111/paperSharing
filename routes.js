@@ -42,7 +42,7 @@ module.exports.list = function* list() {
     tagsHead = tagList.slice(0,4);
   }
   console.log("tags:");
-  console.log(tagList);
+  console.log(tagsHead);
   this.body = yield render('list', {
     papers: paperList,
     moreTags : moreTags,
