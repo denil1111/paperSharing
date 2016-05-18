@@ -36,9 +36,9 @@ module.exports.list = function* list() {
   
   var moreTags = [];
   var tagsHead = [];
-  tagsHead = tagList.slice(0,4);
-  if (tagList.length>=4) {
-    moreTags = tagList.slice(4);
+  tagsHead = tagList.slice(0,100);
+  if (tagList.length>=100) {
+    moreTags = tagList.slice(100);
     // tagList.splice(4); 
   }
   console.log("tags:");

@@ -7,6 +7,14 @@
     line-height: 1.4;
   }
   
+  .nav-pills {
+    font-size: 125%;
+  }
+  
+  #toggleButOut {
+    display: none;
+  }
+  
   a {
     color: #34538b;
   }
@@ -14,15 +22,14 @@
   .pagination {
     font-size: 84%;
   }
-  
 </style>
 
 {% endblock %} {% block content %}
-<h1>Papers <span class="badge">{{ papers.length }}</span> <a href="/paper/new" class="btn btn-success btn-sm" style="display:inline-block;margin-left:10px;">Post a paper</a></h1>
-<ul class="nav nav-tabs">
-  <li class="active"><a href="#home" data-toggle="tab">All</a></li>
+<h1>Papers  <a href="/paper/new" class="btn btn-success btn-sm" style="display:inline-block;margin-left:10px;">Post a paper</a></h1>
+<ul class="nav nav-pills">
+  <li id="top" class="active"><a href="#home" data-toggle="tab">All<span class="badge">{{ papers.length }}</span></a></li>
   {% for tag in tagsHead %}
-  <li><a href="#tagName{{tag.name}}" data-toggle="tab">{{tag.name}}</a></li>
+  <li><a class = "tagli" href="#tagName{{tag.name}}" data-toggle="tab">{{tag.name}}<span class="badge">{{ tag.papers.length }}</span></a></li>
   {% endfor %} {% if moreTags.length > 0 %}
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
@@ -30,13 +37,17 @@
     </a>
     <ul class="dropdown-menu">
       {% for tag in moreTags %}
-      <li><a href="#tagName{{tag.name}}" data-toggle="tab">{{tag.name}}</a></li>
+      <li><a href="#tagName{{tag.name}}" data-toggle="tab">{{tag.name}}<span class="badge">{{ tag.papers.length }}</span></a></li>
       {% endfor %}
     </ul>
   </li>
   {% endif %}
+    <li id="liBut"><a id="toggleButIn" onclick="toggle()" class="label label-info">
+      close tags</a></li>
 </ul>
-<div class = "row">
+<a id="toggleButOut" onclick="toggle()" class="btn btn-primary">
+  open tags</a>
+<div class="row">
   <div class="tab-content">
     <div class="tab-pane fade active in" id="home">
       <div id="Searchresult0">分页初始化完成后这里的内容会被替换。</div>
@@ -53,9 +64,7 @@
       <div id="Pagination0" class="pagination">
       </div>
     </div>
-    {% set i=0%} 
-    {% for tag in tags %} 
-    {% set i=i+1 %}
+    {% set i=0%} {% for tag in tags %} {% set i=i+1 %}
     <div class="tab-pane fade" id="tagName{{tag.name}}">
       <div id="Searchresult{{i}}">分页初始化完成后这里的内容会被替换。</div>
       <div id="hiddenresult{{i}}" style="display:none;">
@@ -78,12 +87,21 @@
 <script src="/bootstrap.min.js"></script>
 <script type="text/javascript" src="/jquery.pagination.js"></script>
 <script type="text/javascript">
+  function toggle(){
+    $(".nav-pills li").not("#top").not("#liBut").animate({width:"toggle"});
+    if ($("#toggleButIn").text()==">>") {
+      $("#toggleButIn").text("<<");
+    } else {
+      $("#toggleButIn").text(">>");
+    }
+   
+  };
   $(function(){
-    
+    $("#toggleButIn").text(">>");
+    $(".nav-pills li").not("#top").not("#liBut").toggle();
     var initPagination = function() {
       // 创建分页
       var index=0;
-      
       $(".pagination").each(function(p){
         var length = $("#hiddenresult"+index+" .show").length;
         console.log(index+":"+length);
@@ -117,7 +135,6 @@
       });
     }();
   });
-
 </script>
 
 {% endblock %}
