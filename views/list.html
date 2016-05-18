@@ -83,39 +83,36 @@
     var initPagination = function() {
       // 创建分页
       var index=0;
+      
       $(".pagination").each(function(p){
         var length = $("#hiddenresult"+index+" .show").length;
         console.log(index+":"+length);
+        
+        // var pageselectCallback = (function(){
+        //    
+        //     return 
+        //   })();
+        var indexInside = index;
+        var pageselectCallback = function(page_index, jq){
+              console.log(indexInside);
+              var items_per_page = {{ itemPerPage }};
+              var max_elem = Math.min((page_index+1) * items_per_page, length);
+              console.log(length);
+              console.log(max_elem);
+              $("#Searchresult"+indexInside).html("");
+              // 获取加载元素
+              for(var i = page_index * items_per_page; i < max_elem; i++){
+                $("#Searchresult"+indexInside).append($('#hiddenresult'+indexInside+' .show:eq('+i+')').clone());
+              }
+              //阻止单击事件
+              return false;
+            };
         $("#Pagination"+index).pagination(length, {
           num_edge_entries: 1, //边缘页数
           num_display_entries: 4, //主体页数
           callback: pageselectCallback,
           items_per_page:{{ itemPerPage }} //每页显示1项
-        });
-        var indexInside;
-        indexInside = index;
-        function pageselectCallback(page_index, jq){
-          // 从表单获取每页的显示的列表项数目
-          console.log(indexInside);
-          if (!jq.length)
-          {
-            var id = jq.id;
-          } else {
-            id = jq[0].id;
-          }
-          var indexInside = id.slice(10,11);
-          var items_per_page = {{ itemPerPage }};
-          var max_elem = Math.min((page_index+1) * items_per_page, length);
-          console.log(length);
-          console.log(max_elem);
-          $("#Searchresult"+indexInside).html("");
-          // 获取加载元素
-          for(var i = page_index * items_per_page; i < max_elem; i++){
-            $("#Searchresult"+indexInside).append($('#hiddenresult'+indexInside+' .show:eq('+i+')').clone());
-          }
-          //阻止单击事件
-          return false;
-        }
+        });   
         index = index + 1;
       });
     }();
